@@ -6,14 +6,41 @@ const img = new Image(); // used to load image from <input> and draw to canvas
 img.addEventListener('load', () => {
   // TODO
 
+  var canvas = document.getElementById('user-image');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+
+  var dimensions = getDimmensions(canvas.width, canvas.height, img.width, img.height);
+  ctx.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
+
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
   // - Clear the form when a new image is selected
   // - If you draw the image to canvas here, it will update as soon as a new image is selected
 });
 
+
+// Input Image Method
+document.querySelector('#image-input').addEventListener('change', () => {
+  
+  const inputtedImage = document.querySelector('#image-input').files[0];
+  const objectURL = URL.createObjectURL(inputtedImage);
+  img.src = objectURL;
+  img.alt = objectURL;
+  
+
+})
+
+
+
+
+
+
 /**
- * Takes in the dimensions of the canvas and the new image, then calculates the new
+ * Takes in the dimensions of th0e canvas and the new image, then calculates the new
  * dimensions of the image so that it fits perfectly into the Canvas and maintains aspect ratio
  * @param {number} canvasWidth Width of the canvas element to insert image into
  * @param {number} canvasHeight Height of the canvas element to insert image into
