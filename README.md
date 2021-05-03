@@ -9,4 +9,5 @@
 https://dhuynh97.github.io/Lab5/
 
 ## Part 2:
+https://github.com/dhuynh97/github-actions-for-ci/issues/7
 [https://github.com/dhuynh97/github-actions-for-ci](https://github.com/dhuynh97/github-actions-for-ci)
