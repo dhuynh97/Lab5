@@ -5,8 +5,8 @@
 
 ## Part 1:
 
-LINK TO YOUR PUBLISHED SITE
+[LINK TO YOUR PUBLISHED SITE](https://dhuynh97.github.io/Lab5/)
+https://dhuynh97.github.io/Lab5/
 
 ## Part 2:
-
-LINK TO YOUR PART 2 REPOSITORY
+[https://github.com/dhuynh97/github-actions-for-ci](https://github.com/dhuynh97/github-actions-for-ci)
