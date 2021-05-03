@@ -7,7 +7,7 @@ img.addEventListener('load', () => {
   // TODO
 
   var canvas = document.getElementById('user-image');
-  const ctx = canvas.getContext('2d');
+  var ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = 'black';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -15,6 +15,7 @@ img.addEventListener('load', () => {
 
   var dimensions = getDimmensions(canvas.width, canvas.height, img.width, img.height);
   ctx.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
+  document.querySelector("button[type='reset']").disabled = false;
 
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
@@ -27,14 +28,69 @@ img.addEventListener('load', () => {
 document.querySelector('#image-input').addEventListener('change', () => {
   
   const inputtedImage = document.querySelector('#image-input').files[0];
-  const objectURL = URL.createObjectURL(inputtedImage);
-  img.src = objectURL;
-  img.alt = objectURL;
+  img.src =  URL.createObjectURL(inputtedImage);
+
+});
+
+// function to grab text from input and generate it into canvas
+function generateText() {
+
+  //load user inputted text
+  var toptext = document.getElementById('text-top').value;
+  var bottomtext = document.getElementById('text-bottom').value;
+
+  // get canvas properties
+  var canvas = document.getElementById('user-image');
+  var ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = 'white';
+  ctx.font = "40px Comic Sans MS";
   
+  //fill the text in canvas
+  ctx.textAlign = 'center';
+  ctx.fillText(toptext, canvas.width/2, canvas.height/8);
+  ctx.fillText(bottomtext, canvas.width / 2, 7 / 8 * canvas.height);
+  document.querySelector("button[type='reset']").disabled = false;
+  document.querySelector("button[type='button']").disabled = false;
 
-})
+
+}
+//calling generate text function
+document.getElementById('generate-meme').addEventListener('submit', (event) => {
+  event.preventDefault();
+  generateText();
+
+});
 
 
+// function to reset canvas
+function resetCanvas() {
+  var canvas = document.getElementById('user-image');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// function to call reset canvas
+document.querySelector("button[type='reset']").addEventListener('click', () => {
+  resetCanvas();
+  document.querySelector("button[type='reset']").disabled = true;
+  document.querySelector("button[type='button']").disabled = true;
+});
+
+function readText() {
+  var toptext = document.getElementById('text-top').value;
+  var bottomtext = document.getElementById('text-bottom').value;
+
+  let topUtterance = new SpeechSynthesisUtterance(toptext);
+  let bottomUtterance = new SpeechSynthesisUtterance(bottomtext);
+
+  speechSynthesis.speak(topUtterance);
+  speechSynthesis.speak(bottomUtterance);
+}
+
+document.querySelector("button[type='button']").addEventListener('click', () => {
+  readText();
+});
 
 
 
