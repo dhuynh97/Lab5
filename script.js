@@ -77,6 +77,8 @@ document.querySelector("button[type='reset']").addEventListener('click', () => {
   document.querySelector("button[type='button']").disabled = true;
 });
 
+
+//function to read text
 function readText() {
   var toptext = document.getElementById('text-top').value;
   var bottomtext = document.getElementById('text-bottom').value;
@@ -88,10 +90,32 @@ function readText() {
   speechSynthesis.speak(bottomUtterance);
 }
 
+// call readText function on click
 document.querySelector("button[type='button']").addEventListener('click', () => {
   readText();
 });
 
+
+// volume slider change image
+document.getElementById('volume-group').addEventListener('input', (event) => {
+  let volume = document.querySelector("input[type='range']").value;
+  if (volume == 0) {
+    document.querySelector('#volume-group img').src = 'icons/volume-level-0.svg';
+  }
+
+  if (volume >= 1 && volume <= 33) {
+    document.querySelector('#volume-group img').src = 'icons/volume-level-1.svg';
+  }
+
+  if (volume >= 34 && volume <= 66) {
+    document.querySelector('#volume-group img').src = 'icons/volume-level-2.svg';
+  }
+
+  if (volume >= 66 && volume <= 100) {
+    document.querySelector('#volume-group img').src = 'icons/volume-level-3.svg';
+  }
+
+});
 
 
 
