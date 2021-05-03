@@ -1,4 +1,8 @@
 // script.js
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
+var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+
 
 const img = new Image(); // used to load image from <input> and draw to canvas
 
@@ -52,6 +56,8 @@ function generateText() {
   ctx.fillText(bottomtext, canvas.width / 2, 7 / 8 * canvas.height);
   document.querySelector("button[type='reset']").disabled = false;
   document.querySelector("button[type='button']").disabled = false;
+  document.querySelector("button[type='submit']").disabled = true;
+  document.getElementById('voice-selection').disabled = false;
 
 
 }
@@ -75,16 +81,25 @@ document.querySelector("button[type='reset']").addEventListener('click', () => {
   resetCanvas();
   document.querySelector("button[type='reset']").disabled = true;
   document.querySelector("button[type='button']").disabled = true;
+  document.querySelector("button[type='submit']").disabled = false;
+  document.getElementById('voice-selection').disabled = true;
 });
 
 
 //function to read text
 function readText() {
+
   var toptext = document.getElementById('text-top').value;
   var bottomtext = document.getElementById('text-bottom').value;
 
   let topUtterance = new SpeechSynthesisUtterance(toptext);
   let bottomUtterance = new SpeechSynthesisUtterance(bottomtext);
+
+  //change volume of voice
+  let volume = document.querySelector("input[type='range']").value;
+  console.log(volume);
+  topUtterance.volume = volume;
+  bottomUtterance.volume = volume;
 
   speechSynthesis.speak(topUtterance);
   speechSynthesis.speak(bottomUtterance);
@@ -116,6 +131,33 @@ document.getElementById('volume-group').addEventListener('input', (event) => {
   }
 
 });
+
+var synth = window.speechSynthesis;
+var voiceSelect = document.querySelector('select');
+var voices = [];
+voiceSelect.remove(0);
+
+function populateVoiceList() {
+  voices = synth.getVoices();
+
+  for(var i = 0; i < voices.length ; i++) {
+    var option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    voiceSelect.appendChild(option);
+  }
+}
+
+populateVoiceList();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoiceList;
+}
 
 
 
